@@ -3,12 +3,20 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { View } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
 				headerShown: false,
+				tabBarButton: (props) => (
+					<TouchableWithoutFeedback onPress={props.onPress} onPressIn={(e) => e.preventDefault()}>
+						<View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							{props.children}
+						</View>
+					</TouchableWithoutFeedback>
+				),
 				tabBarActiveTintColor: '#1A4D2E',
 				tabBarInactiveTintColor: 'gray',
 				tabBarStyle: {
@@ -16,7 +24,7 @@ export default function TabLayout() {
 
 					backgroundColor: 'white',
 					height: 72,
-					paddingTop: 5,
+					paddingTop: 10,
 					justifyContent: 'center',
 					alignItems: 'center',
 					borderRadius: 16,
@@ -27,6 +35,7 @@ export default function TabLayout() {
 				lazy: true,
 				tabBarAllowFontScaling: true,
 				sceneStyle: { backgroundColor: 'white' },
+				tabBarHideOnKeyboard: true,
 			}}
 		>
 			<Tabs.Screen
@@ -56,9 +65,15 @@ export default function TabLayout() {
 				options={{
 					title: '',
 					tabBarIcon: ({ color, size, focused }) => (
-						<View className='items-center justify-center w-20 h-20 rounded-full bottom-4 bg-[#1A4D2E]'>
+						<LinearGradient
+							style={{ borderRadius: 99 }}
+							colors={['#1A4D2E', '#137f3e']}
+							start={{ x: 1, y: 0.5 }}
+							end={{ x: 1, y: 1 }}
+							className='items-center justify-center w-20 h-20 rounded-full bottom-4'
+						>
 							<Ionicons name={focused ? 'camera' : 'camera-outline'} size={36} color='#fff' />
-						</View>
+						</LinearGradient>
 					),
 				}}
 			/>
