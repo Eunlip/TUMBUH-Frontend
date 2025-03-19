@@ -1,45 +1,91 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { View } from 'react-native';
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+	return (
+		<Tabs
+			screenOptions={{
+				headerShown: false,
+				tabBarActiveTintColor: '#1A4D2E',
+				tabBarInactiveTintColor: 'gray',
+				tabBarStyle: {
+					position: 'absolute',
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+					backgroundColor: 'white',
+					height: 72,
+					paddingTop: 5,
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderRadius: 16,
+					elevation: 0,
+				},
+				freezeOnBlur: true,
+				animation: 'shift',
+				lazy: true,
+				tabBarAllowFontScaling: true,
+				sceneStyle: { backgroundColor: 'white' },
+			}}
+		>
+			<Tabs.Screen
+				name='edukasi'
+				options={{
+					tabBarIcon: ({ color, size }) => <FontAwesome5 name='book' size={22} color={color} />,
+					tabBarLabel: 'Edukasi',
+					tabBarLabelStyle: { fontSize: 12, fontFamily: 'Poppins-SemiBold' },
+				}}
+			/>
+			<Tabs.Screen
+				name='belanja'
+				options={{
+					tabBarIcon: ({ color, size, focused }) => (
+						<MaterialCommunityIcons
+							name={focused ? 'shopping' : 'shopping-outline'}
+							size={26}
+							color={color}
+						/>
+					),
+					tabBarLabel: 'Belanja',
+					tabBarLabelStyle: { fontSize: 12, fontFamily: 'Poppins-SemiBold' },
+				}}
+			/>
+			<Tabs.Screen
+				name='detectionPlants'
+				options={{
+					title: '',
+					tabBarIcon: ({ color, size, focused }) => (
+						<View className='items-center justify-center w-20 h-20 rounded-full bottom-4 bg-[#1A4D2E]'>
+							<Ionicons name={focused ? 'camera' : 'camera-outline'} size={36} color='#fff' />
+						</View>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='forum'
+				options={{
+					tabBarIcon: ({ color, size, focused }) => (
+						<MaterialCommunityIcons
+							name={focused ? 'forum' : 'forum-outline'}
+							size={26}
+							color={color}
+						/>
+					),
+					tabBarLabel: 'Forum',
+					tabBarLabelStyle: { fontSize: 12, fontFamily: 'Poppins-SemiBold' },
+				}}
+			/>
+			<Tabs.Screen
+				name='akun'
+				options={{
+					tabBarIcon: ({ color, size, focused }) => (
+						<FontAwesome name={focused ? 'user-circle' : 'user-circle-o'} size={26} color={color} />
+					),
+					tabBarLabel: 'Akun',
+					tabBarLabelStyle: { fontSize: 12, fontFamily: 'Poppins-SemiBold' },
+				}}
+			/>
+		</Tabs>
+	);
 }
