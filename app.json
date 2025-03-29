@@ -5,10 +5,17 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icons/adaptive-icon.png",
-    "scheme": "myapp",
+    "scheme": "tumbuh",
+    "platforms": [
+      "android",
+      "ios"
+    ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "supportsTablet": true,
       "icon": "./assets/icons/ios-light.png"
     },
@@ -18,7 +25,10 @@
         "monochromeImage": "./assets/icons/adaptive-icon.png",
         "backgroundImage": "./assets/icons/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "INTERNET"
+      ]
     },
     "web": {
       "bundler": "metro",

@@ -1,6 +1,7 @@
 import ImageInAuth from '@/assets/images/top-auth.png';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { useAuth } from '@/context/AuthContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Checkbox from 'expo-checkbox';
@@ -10,8 +11,51 @@ import { Image, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignUp() {
+	const [formData, setFormData] = useState<{
+		username: string;
+		email: string;
+		password: string;
+	}>({
+		username: '',
+		email: '',
+		password: '',
+	});
+	const { onSignup } = useAuth();
+
 	const [isChecked, setIsChecked] = useState(false);
 	const router = useRouter();
+
+	const handleSignup = async () => {
+		const { username, email, password } = formData;
+
+		if (!username || !email || !password) {
+			alert('Username, email, dan password harus diisi');
+			return;
+		}
+
+		if (password.length < 6) {
+			alert('Password harus minimal 6 karakter');
+			return;
+		}
+
+		if (!isChecked) {
+			alert('Anda harus menyetujui syarat dan ketentuan');
+			return;
+		}
+
+		try {
+			const result = await onSignup!(username, email, password);
+
+			if (result.error) {
+				alert(result.message);
+			} else {
+				router.push('/(tabs)/edukasi');
+			}
+		} catch (error) {
+			console.error('Error during sign up:', error);
+			alert('Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+		}
+	};
 
 	return (
 		<SafeAreaView className='flex-1'>
@@ -21,28 +65,37 @@ export default function SignUp() {
 					<Input
 						label='Username'
 						placeholder='Username'
-						onChangeText={() => {}}
+						onChangeText={(text: string) => {
+							setFormData({ ...formData, username: text });
+						}}
 						icon={<FontAwesome name='user' size={24} color='#4F6F52' />}
 						clsnm='px-6 py-1'
 						iconClsnm='mr-4'
+						value={formData.username}
 					/>
 					<Input
 						label='Email Address'
 						placeholder='Email Address'
 						keyboardType='email-address'
-						onChangeText={() => {}}
+						onChangeText={(text: string) => {
+							setFormData({ ...formData, email: text });
+						}}
 						icon={<MaterialIcons name='email' size={24} color='#4F6F52' />}
 						clsnm='px-5 py-1'
 						iconClsnm='mr-3'
+						value={formData.email}
 					/>
 					<Input
 						label='Password'
 						placeholder='Password'
-						onChangeText={() => {}}
+						onChangeText={(text: string) => {
+							setFormData({ ...formData, password: text });
+						}}
 						icon={<FontAwesome name='lock' size={25} color='#4F6F52' />}
 						clsnm='px-6 py-1'
 						secureTextEntry={true}
 						iconClsnm='mr-4'
+						value={formData.password}
 					/>
 					<View className='flex-row gap-3' style={{ marginTop: 10 }}>
 						<Checkbox
@@ -65,7 +118,7 @@ export default function SignUp() {
 						</View>
 					</View>
 				</View>
-				<Button text='Daftar' onPress={() => {}} color1='#49A18C' color2='#3D8D7A' />
+				<Button text='Daftar' onPress={handleSignup} color1='#49A18C' color2='#3D8D7A' />
 				<View className='flex-row items-end justify-center flex-1'>
 					<Text className='font-poppins-medium'>Sudah punya akun? </Text>
 					<Pressable onPress={() => router.push('./signIn')}>

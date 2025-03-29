@@ -2,14 +2,47 @@ import GoogleIcon from '@/assets/icons/Google.png';
 import ImageInAuth from '@/assets/images/top-auth.png';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { useAuth } from '@/context/AuthContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignIn() {
+	const [formData, setFormData] = useState<{
+		email: string;
+		password: string;
+	}>({
+		email: '',
+		password: '',
+	});
+	const { onSignin } = useAuth();
 	const router = useRouter();
+
+	const handleSignin = async () => {
+		const { email, password } = formData;
+
+		if (!email || !password) {
+			alert('Email dan password harus diisi');
+			return;
+		}
+
+		console.log('Attempting to sign in with:', email, password); // Debug log
+
+		try {
+			const result = await onSignin!(email, password);
+
+			if (result.error) {
+				alert('Email dan password salah');
+			} else {
+				router.push('/(tabs)/edukasi');
+			}
+		} catch (error) {
+			alert('Terjadi kesalahan saat masuk. Silakan coba lagi.');
+		}
+	};
 
 	return (
 		<SafeAreaView className='flex-1'>
@@ -20,7 +53,10 @@ export default function SignIn() {
 						label='Email Address'
 						placeholder='Email Address'
 						keyboardType='email-address'
-						onChangeText={() => {}}
+						onChangeText={(text: string) => {
+							setFormData({ ...formData, email: text });
+						}}
+						value={formData.email}
 						icon={<MaterialIcons name='email' size={24} color='#4F6F52' />}
 						clsnm='px-5 py-1'
 						iconClsnm='mr-3'
@@ -28,7 +64,10 @@ export default function SignIn() {
 					<Input
 						label='Password'
 						placeholder='Password'
-						onChangeText={() => {}}
+						onChangeText={(text: string) => {
+							setFormData({ ...formData, password: text });
+						}}
+						value={formData.password}
 						icon={<FontAwesome name='lock' size={25} color='#4F6F52' />}
 						clsnm='px-6 py-1'
 						secureTextEntry={true}
@@ -42,12 +81,7 @@ export default function SignIn() {
 					</Pressable>
 				</View>
 				<View className='flex gap-5 mt-6'>
-					<Button
-						text='Masuk'
-						onPress={() => router.push('./chooseRole')}
-						color1='#49A18C'
-						color2='#3D8D7A'
-					/>
+					<Button text='Masuk' onPress={handleSignin} color1='#49A18C' color2='#3D8D7A' />
 					<View className='flex-row items-center justify-center gap-3'>
 						<View style={styles.line} />
 						<Text className='text-black-100 font-poppins-medium'>atau</Text>

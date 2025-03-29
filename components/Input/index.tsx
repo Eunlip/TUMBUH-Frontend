@@ -10,6 +10,7 @@ type InputProps = {
 	clsnm?: string;
 	icon?: React.ReactNode;
 	iconClsnm?: string;
+	value: string;
 };
 
 export default function Input({
@@ -21,12 +22,13 @@ export default function Input({
 	clsnm,
 	icon,
 	iconClsnm,
+	value,
 }: Readonly<InputProps>) {
 	return (
 		<View className='flex gap-2'>
 			{/* {label && <Text className='text-black-100 font-poppins-medium'>{label}</Text>} */}
 			<View
-				className={`flex-row items-center w-full border border-[#DEDEDE] rounded-2xl h-16 ${clsnm}`}
+				className={`flex-row items-center w-full border border-green-700 rounded-2xl h-16 ${clsnm}`}
 			>
 				{icon && <View className={`${iconClsnm}`}>{icon}</View>}
 				<TextInput
@@ -35,6 +37,7 @@ export default function Input({
 					onChangeText={onChangeText}
 					keyboardType={keyboardType}
 					secureTextEntry={secureTextEntry}
+					value={value}
 				/>
 			</View>
 		</View>

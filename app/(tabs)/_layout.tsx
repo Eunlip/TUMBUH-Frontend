@@ -64,7 +64,7 @@ export default function TabLayout() {
 				name='detectionPlants'
 				options={{
 					title: '',
-					tabBarIcon: ({ color, size, focused }) => (
+					tabBarIcon: () => (
 						<LinearGradient
 							style={{ borderRadius: 99 }}
 							colors={['#1A4D2E', '#137f3e']}
@@ -72,7 +72,7 @@ export default function TabLayout() {
 							end={{ x: 1, y: 1 }}
 							className='items-center justify-center w-20 h-20 rounded-full bottom-4'
 						>
-							<Ionicons name={focused ? 'camera' : 'camera-outline'} size={36} color='#fff' />
+							<Ionicons name='camera' size={36} color='#fff' />
 						</LinearGradient>
 					),
 				}}

@@ -4,19 +4,25 @@ import Logo from '@/assets/icons/logo-in-onboarding.png';
 import Button from '@/components/Button';
 import PagerView from 'react-native-pager-view';
 import { useRef, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import slides from '@/constants/slides';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Index() {
 	const pagerRef = useRef<PagerView>(null);
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const router = useRouter();
+	const { authState } = useAuth();
 
 	const handlePageChange = () => {
 		if (currentIndex < slides.length - 1) {
 			pagerRef.current?.setPage(currentIndex + 1);
 		}
 	};
+
+	if (authState?.authenticated) {
+		return <Redirect href='/(tabs)/edukasi' />;
+	}
 
 	return (
 		<SafeAreaView className='items-center justify-between flex-1 p-10 bg-white'>
