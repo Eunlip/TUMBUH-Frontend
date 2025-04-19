@@ -1,9 +1,10 @@
 import { AuthProvider } from '@/context/AuthContext';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import './global.css';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
+import * as Linking from 'expo-linking';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,10 +17,30 @@ export default function RootLayout() {
 		'Poppins-Thin': require('@/assets/fonts/Poppins-Thin.ttf'),
 	});
 
+	const router = useRouter();
+
 	useEffect(() => {
 		if (fontsLoaded) {
 			SplashScreen.hideAsync();
 		}
+
+		// Handle incoming deep links
+		const handleDeepLink = ({ url }: { url: string }) => {
+			const { path, queryParams } = Linking.parse(url);
+			if (path === 'resetPassword') {
+				if (queryParams) {
+					const { token, email } = queryParams;
+					router.replace(`/resetPassword?token=${token}&email=${email}`);
+				}
+			}
+		};
+
+		const subscription = Linking.addEventListener('url', handleDeepLink);
+
+		// Clean up the event listener on unmount
+		return () => {
+			subscription.remove();
+		};
 	}, [fontsLoaded]);
 
 	if (!fontsLoaded) return null;
