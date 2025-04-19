@@ -17,6 +17,7 @@ import {
 	View,
 } from 'react-native';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import Loading from '../loading';
 
 export default function SignUp() {
 	const [formData, setFormData] = useState<{
@@ -129,6 +130,10 @@ export default function SignUp() {
 			setIsLoading(false);
 		}
 	};
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<View className='flex-1'>
