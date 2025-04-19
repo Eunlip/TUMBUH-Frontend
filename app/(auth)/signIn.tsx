@@ -18,6 +18,7 @@ import {
 	View,
 } from 'react-native';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+import Loading from '../loading';
 
 export default function SignIn() {
 	const [formData, setFormData] = useState<{
@@ -113,6 +114,10 @@ export default function SignIn() {
 		}
 	};
 
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<View className='flex-1'>
 			{/* Status Bar */}
@@ -156,10 +161,7 @@ export default function SignIn() {
 						}
 						iconClsnm='mr-4'
 					/>
-					<Pressable
-						onPress={() => router.push('./forgotPassword/forgotPassword')}
-						className='self-end'
-					>
+					<Pressable onPress={() => router.push('./forgotPassword')} className='self-end'>
 						<Text className='text-right text-black-300 font-poppins-medium'>Lupa Password?</Text>
 					</Pressable>
 				</View>
