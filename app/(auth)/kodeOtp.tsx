@@ -7,13 +7,14 @@ import { Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import OTPTextView from 'react-native-otp-textinput';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Loading from '../loading';
 
 export default function KodeOtp() {
 	const [otpInput, setOtpInput] = useState<string>('');
 	const [timer, setTimer] = useState<number>(60);
 	const input = useRef<OTPTextView>(null);
 	const { email, password } = useLocalSearchParams<{ email: string; password: string }>();
-	const [loading, setLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [dots, setDots] = useState<string>('');
 
 	const { onSignin, verifyEmail, resendOTP } = useAuth();
@@ -37,7 +38,7 @@ export default function KodeOtp() {
 	};
 
 	const verifyOTP = async () => {
-		setLoading(true);
+		setIsLoading(true);
 		try {
 			const response = await verifyEmail!(email, otpInput);
 			if (response && response.status === 200) {
@@ -65,7 +66,7 @@ export default function KodeOtp() {
 		} catch (error) {
 			console.error('Error verifying OTP:', error);
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
@@ -83,37 +84,10 @@ export default function KodeOtp() {
 		return () => clearInterval(interval);
 	}, [timer]);
 
-	useEffect(() => {
-		let increasing = true;
-		const interval = setInterval(() => {
-			setDots((prev) => {
-				if (increasing) {
-					// Jika bertambah, tambahkan titik
-					if (prev.length < 3) {
-						return prev + '.';
-					} else {
-						increasing = false; // Ubah arah ke menurun
-						return prev.slice(0, -1);
-					}
-				} else if (prev.length > 0) {
-					// Jika menurun, kurangi titik
-					return prev.slice(0, -1);
-				} else {
-					increasing = true; // Ubah arah ke bertambah
-					return prev + '.';
-				}
-			});
-		}, 400);
-
-		return () => clearInterval(interval);
-	}, []);
-
 	return (
 		<>
-			{loading ? (
-				<View className='items-center justify-center flex-1 gap-3 bg-white'>
-					<Text className='text-3xl font-poppins-bold text-green'>Sebentar ya {dots}</Text>
-				</View>
+			{isLoading ? (
+				<Loading />
 			) : (
 				<SafeAreaView className='flex-1 bg-white'>
 					<View className='items-center flex-1 gap-3'>
