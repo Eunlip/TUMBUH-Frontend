@@ -11,6 +11,8 @@ interface AuthProps {
 	verifyEmail?: (email: string, otp: string) => Promise<any>;
 	resendOTP?: (email: string) => Promise<any>;
 	GoogleSignin: () => Promise<any>;
+	sendResetPassword?: (email: string) => Promise<any>;
+	resetPassword?: (email: string, password: string, token: string) => Promise<any>;
 }
 
 const TOKEN_KEY = process.env.EXPO_PUBLIC_TOKEN_KEY ?? 'my-jwt-token-key';
@@ -188,6 +190,22 @@ export const AuthProvider = ({ children }: any) => {
 		}
 	};
 
+	const sendResetPassword = async (email: string) => {
+		try {
+			return await axios.post(`${API_URL}/forgot-password`, { email });
+		} catch (error: any) {
+			return { error: true, message: error.response.data.message };
+		}
+	};
+
+	const resetPassword = async (email: string, password: string, token: string) => {
+		try {
+			return await axios.post(`${API_URL}/reset-password`, { email, password, token });
+		} catch (error: any) {
+			return { error: true, message: error.response.data.message };
+		}
+	};
+
 	const value = useMemo(
 		() => ({
 			onSignup: signup,
@@ -196,9 +214,21 @@ export const AuthProvider = ({ children }: any) => {
 			verifyEmail,
 			resendOTP,
 			GoogleSignin: signInWithGoogle,
+			sendResetPassword,
+			resetPassword,
 			authState,
 		}),
-		[signup, signin, logout, verifyEmail, signInWithGoogle, resendOTP, authState],
+		[
+			signup,
+			signin,
+			logout,
+			verifyEmail,
+			signInWithGoogle,
+			resendOTP,
+			sendResetPassword,
+			resetPassword,
+			authState,
+		],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
