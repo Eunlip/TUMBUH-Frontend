@@ -17,9 +17,20 @@ export default function AuthLayout() {
 			<Stack.Screen name='signIn' />
 			<Stack.Screen name='signUp' />
 			<Stack.Screen name='chooseRole' />
-			<Stack.Screen name='kodeOtp' />
-			<Stack.Screen name='forgotPassword/changePassword' />
-			<Stack.Screen name='forgotPassword/forgotPassword' />
+			<Stack.Screen name='kodeOtp' options={{ headerShown: true }} />
+			<Stack.Screen name='resetPassword' />
+			<Stack.Screen
+				name='forgotPassword'
+				options={{
+					headerShown: true,
+					headerTitle: 'Lupa Password',
+					headerTitleAlign: 'center',
+					headerTintColor: '#fff',
+					headerStyle: {
+						backgroundColor: '#3D8D7A',
+					},
+				}}
+			/>
 		</Stack>
 	);
 }
