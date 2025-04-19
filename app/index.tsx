@@ -64,13 +64,13 @@ export default function Index() {
 				<View className='w-full gap-3'>
 					<Button
 						text='Masuk'
-						onPress={() => router.push('/auth/signIn')}
+						onPress={() => router.push('/signIn')}
 						color1='#49A18C'
 						color2='#3D8D7A'
 					/>
 					<Button
 						text='Daftar'
-						onPress={() => router.push('/auth/signUp')}
+						onPress={() => router.push('/signUp')}
 						color1='transparent'
 						color2='transparent'
 						textColor='text-[##3D8D7A]'

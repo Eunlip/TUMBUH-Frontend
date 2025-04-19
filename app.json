@@ -2,13 +2,19 @@
   "expo": {
     "name": "Tumbuh",
     "slug": "Tumbuh",
+    "owner": "eunlip",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/adaptive-icon.png",
+    "splash": {
+      "image": "./assets/icons/splash-icon-dark.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "scheme": "tumbuh",
     "platforms": [
       "android",
-      "ios"
+      "ios",
+      "web"
     ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -17,6 +23,7 @@
         "usesNonExemptEncryption": false
       },
       "supportsTablet": true,
+      "bundleIdentifier": "com.eunlip.Tumbuh",
       "icon": "./assets/icons/ios-light.png"
     },
     "android": {
@@ -27,8 +34,12 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
+        "INTERNET",
+        "INTERNET",
+        "INTERNET",
         "INTERNET"
-      ]
+      ],
+      "package": "com.eunlip.Tumbuh"
     },
     "web": {
       "bundler": "metro",
@@ -38,16 +49,26 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "@react-native-google-signin/google-signin",
         {
-          "image": "./assets/icons/splash-icon-dark.png",
-          "resizeMode": "cover",
-          "backgroundColor": "#ffffff"
+          "iosUrlScheme": "com.googleusercontent.apps.51641444247-osbk9c2465t24fduaosrm8h3fj0m6a8u"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "36f28f87-932b-48a2-8062-371afc806790"
+      }
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/36f28f87-932b-48a2-8062-371afc806790"
     }
   }
 }

@@ -22,19 +22,18 @@ export default function TabLayout() {
 				tabBarStyle: {
 					position: 'absolute',
 
-					backgroundColor: 'white',
-					height: 72,
+					backgroundColor: '#fff',
+					height: 65,
 					paddingTop: 10,
 					justifyContent: 'center',
 					alignItems: 'center',
-					borderRadius: 16,
-					elevation: 0,
+					borderRadius: 20,
+					elevation: 2,
 				},
 				freezeOnBlur: true,
 				animation: 'shift',
 				lazy: true,
 				tabBarAllowFontScaling: true,
-				sceneStyle: { backgroundColor: 'white' },
 				tabBarHideOnKeyboard: true,
 			}}
 		>
@@ -61,7 +60,7 @@ export default function TabLayout() {
 				}}
 			/>
 			<Tabs.Screen
-				name='detectionPlants'
+				name='detection-plant'
 				options={{
 					title: '',
 					tabBarIcon: () => (
